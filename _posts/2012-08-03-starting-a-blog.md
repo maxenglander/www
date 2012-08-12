@@ -10,7 +10,7 @@ It's going to be amazing.
 ## Just look at me
 
 {% highlight ruby linenos %}
-def foo
-  puts 'foo'
-end
+    def foo
+      puts 'foo'
+    end
 {% endhighlight %}
