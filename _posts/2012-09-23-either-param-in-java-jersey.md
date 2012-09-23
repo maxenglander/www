@@ -44,7 +44,7 @@ The injectable and injectable provider, `BothParamInjectableProvider`:
 
 {% highlight java %}
     @Provider
-    public class BothParamInjectableProvider implements Injectable<String>, implements Injectable<EitherParam, Type> {
+    public class BothParamInjectableProvider implements Injectable<String>, implements Injectable<BothParam, Type> {
       @Context HttpContext httpContext;
 
       private String parameterName;
@@ -66,8 +66,8 @@ The injectable and injectable provider, `BothParamInjectableProvider`:
         return ComponentScope.PerRequest;
       }
 
-      public Injectable getInjectable(ComponentContext componentContext, EitherParam eitherParam, Type type) {
-        this.parameterName = eitherParam.getValue;
+      public Injectable getInjectable(ComponentContext componentContext, BothParam bothParam, Type type) {
+        this.parameterName = bothParam.getValue;
         return this;
       }
     }
