@@ -26,9 +26,17 @@ I came across [this post](http://stackoverflow.com/questions/8720728/in-jersey-c
     }
 {% endhighlight %}
 
-I'm interested in a good solution to this question. I'm working on a project where I'd like to use Java Jersey, but need to support a legacy API which does not map elegantly into the RESTful paradigms that JAX-RS is designed to support.
+The annotation `@BothParam` would allow you to create a post with either:
+  
+    curl -d title=mytitle&body=mybody http://localhost:9998/posts
 
-One solution I've tested is creating an `InjectableProvider` which provides an `Injectable` for a custom annotation, such as `BothParam`.
+or:
+
+    curl -d body=mybody http://localhost:9999/posts?title=title
+
+I'm also interested in a good solution to this question. I'm working on a project where I'd like to use Java Jersey, but need to support a legacy API which does not map elegantly into the RESTful paradigms that JAX-RS is designed to support.
+
+One solution I'm exploring is an `InjectableProvider` which provides an `Injectable` for a custom annotation, such as `BothParam`.
 
 The custom annotation, `BothParam`:
 
