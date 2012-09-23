@@ -28,11 +28,15 @@ I came across [this post](http://stackoverflow.com/questions/8720728/in-jersey-c
 
 The annotation `@BothParam` would allow you to create a post with either:
   
+{% highlight bash %}
     curl -d title=mytitle&body=mybody http://localhost:9998/posts
+{% endhighlight %}
 
 or:
 
+{% highlight bash %}
     curl -d body=mybody http://localhost:9999/posts?title=title
+{% endhighlight %}
 
 I'm also interested in a good solution to this question. I'm working on a project where I'd like to use Java Jersey, but need to support a legacy API which does not map elegantly into the RESTful paradigms that JAX-RS is designed to support.
 
