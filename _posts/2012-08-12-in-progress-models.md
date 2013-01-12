@@ -3,6 +3,8 @@ layout: default
 title: Make image uploads resilient to form redisplays
 ---
 
+*EDIT - 2013-01-11* I've realized that the following approach is terrible, to be avoided at all costs. Proceed with caution.
+
 I'm using [Paperclip](http://github.com/thoughtbot/paperclip) on Rails, and ran into this issue: when submitting a POST request to Rails, image data is not resilient to form redisplays. So, if a user tries creating a new model (with an image attachment), and forgets to fill out a required field (like `description`), Rails will drop the image data. The user must *choose and re-submit* the image in the next POST.
 
 The top answer to [this StackOverflow question](http://stackoverflow.com/questions/5198602/not-losing-paperclip-attachment-when-model-cannot-be-saved-due-to-validation-err) recommends switching to [Carrierwave](https://github.com/jnicklas/carrierwave/), an alternative to Paperclip which sports a nifty local caching feature.
