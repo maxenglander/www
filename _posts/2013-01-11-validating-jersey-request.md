@@ -135,7 +135,7 @@ minimum and maximum constraints.
 ## Use JSR 303 bean validation
 
 [JSR 303](http://beanvalidation.org/1.0/spec/) bean validation is awesome. It allows you to apply constraints to POJOs
-with annotations, and validate them in a uniform way with validator class. Here I declare constraints directly on
+with annotations, and validate them in a uniform way with a validator class. Here I declare constraints directly on
 `SearchParams`.
 
 {% highlight java %}
@@ -197,7 +197,7 @@ In all of the previous approaches, the `PostsResource` takes some responsibility
 validation process, and generates an error response if validation fails. These two responsibilities are not specific
 to either `PostsResource` or to `SearchParams`, and can be factored out.
 
-### The dropwizard way
+### The Dropwizard way
 
 [dropwizard](http://dropwizard.codahale.com/) bundles (among other things) 
 [Hibernate Validator](http://www.hibernate.org/subprojects/validator.html) (an implementation of JSR 303) and Jersey.
@@ -237,7 +237,7 @@ Dropwizard uses a [custom subclass](https://github.com/codahale/dropwizard/blob/
 of `JacksonJaxbJsonProvider` to check for the presence of `@Valid` annotations on resource method params, 
 validate them, and generate an error response if validation fails.
 
-This comes with its limitations. For example, dropwizard doesn't give you a way to customize the generation of error responses.
+This comes with its limitations. For example, Dropwizard doesn't give you a way to customize the generation of error responses.
 
 ### The AOP way
 
