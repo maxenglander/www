@@ -167,7 +167,7 @@ Making our resource look like this:
       }
 
       public static void validateWithEnum(String parameterName, Class<? extends Enum> enumClass, String parameterValue) {
-        if(!EnumUtil.containsValue(enumClass, parameterValue) {
+        if(!EnumUtil.containsValue(enumClass, parameterValue)) {
           throw new WebApplicationException(
             Response.status(Status.BAD_REQUEST)
                     .entity(parameterName + " must be one of " + EnumUtil.stringValues(enumClass))
