@@ -30,8 +30,8 @@ How can I constrain `status` to a small set of allowable values, such as "active
 Given a String request parameter (such as `status`), and a set of allowable values (such as "active", "banned" and "disabled"),
 
  * Adding a new allowable value (such as "unconfirmed") does not require updates to the code responsible for constraining `status`
- * Given another request parameter (such as `notification_preference`), and a set of allowable values (such as "daily", "weekly", "never"),
-   the code responsible for constraining `status` can be re-used without modification to constrain `notification_preference`
+ * Given another request parameter (such as `notification_preference`), and a set of allowable values (such as "daily", "weekly", "monthly", "never"),
+   the code responsible for constraining `status` can be re-used to constrain `notification_preference`
 
 ## What I wish I could do
 
@@ -65,22 +65,20 @@ I wish I could define an Enum called `AccountStatus`, and have Jersey inject the
     }
 {% endhighlight %}
 
-This isn't supported by Jersey, or any other JSR 311 implementor, as far as I know.
+Unfortunately, this isn't supported by Jersey, or any other JSR 311 implementor, as far as I know.
 
 ## Method 1: A straight-forward way
 
-A straight-forward way is to simply check the value of `status`, and raise a `WebApplicationException` if it is not within the
-allowable set of values:
+A straight-forward way is to simply check the value of `status` against each allowable value, 
+and raise a `WebApplicationException` if it is not within any of the allowable set of values:
 
 {% highlight java %}
-    public class Account {
+    @Path("/accounts")
+    public class AccountsResource {
       public static final String STATUS_ACTIVE = "active";
       public static final String STATUS_BANNED = "banned";
       public static final String STATUS_DISABLED = "disabled";
-    }
 
-    @Path("/accounts")
-    public class AccountsResource {
       @PUT
       @Path("/{id}")
       @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -90,12 +88,12 @@ allowable set of values:
       }
 
       public static void validateStatus(String status) {
-        if(!Account.STATUS_ACTIVE.equals(status)
-          && !Account.STATUS_BANNED.equals(status)
-          && !Account.STATUS_DISABLED.equals(status)) {
+        if(!STATUS_ACTIVE.equals(status)
+          && !STATUS_BANNED.equals(status)
+          && !STATUS_DISABLED.equals(status)) {
           throw new WebApplicationException(
             Response.status(Status.BAD_REQUEST)
-                    .entity("status must be one of [active, banned, disabled]")
+                    .entity("status must be one of [" + STATUS_ACTIVE + ", " + STATUS_BANNED + ", " + STATUS_DISABLED + "]")
                     .build();
           );
         }
@@ -128,7 +126,7 @@ We can define an Enum for any String parameter we want to constrain:
     }
 {% endhighlight %}
 
-And constrain any String to any Enum with a utility class like the following:
+And constrain any String to any Enum with a utility method like the following `containsString` method:
 
 {% highlight java %}
     public class EnumUtil {
