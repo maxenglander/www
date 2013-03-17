@@ -57,7 +57,7 @@ I was concerned that, given my slow pace, the size of Slide, and my exhaustion f
 I wouldn't make it to the designated campsite on the opposite side of Slide. Granted, I could have set up camp anywhere I pleased,
 but there's something comforting about spending the night in a lean-to or designated primitive campsite.
 
-However, thanks to the many snowshowers and hikers who had tread the path before me, I was able to move quickly up and down Slide. 
+However, thanks to the many snowshoers and hikers who had tread the path before me, I was able to move quickly up and down Slide. 
 
 ![View north from Slide mountain](/assets/images/20130313_slide_06_sm.jpg)<br/>
 ![Another from Slide mountain](/assets/images/20130313_slide_07_sm.jpg)
