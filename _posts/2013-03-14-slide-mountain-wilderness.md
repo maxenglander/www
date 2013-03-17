@@ -9,7 +9,7 @@ title: Winter hiking in the Slide Mountain Wilderness
 
 # Day 1
 
-On Friday, I caught the 9:30am bus from Port Authority to New Paltz, on Adirondack Trailways. I arrived a little after 11am,
+On Friday, March 8, 2013, I caught the 9:30am bus from Port Authority to New Paltz, on Adirondack Trailways. I arrived a little after 11am,
 and got a ride from Lee's Taxi to the Long Path trailhead at Peekamoose road, 40 miles north and west.
 
 From there, I began to hike north. An unexpected snowfall had started the day before, and continued to fall, covering the trail 
