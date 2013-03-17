@@ -71,7 +71,7 @@ Luckily, I'd filled a 2 liter bladder with water at Donovan Brook, which was eno
 ![Morning on day 3, at one of the primitive campsites on Slide mountain](/assets/images/20130313_slide_08_sm.jpg)
 
 The last day was the easiest. I had two more mountains to ascend and descend, but the first (Cornell) was connected by a saddle
-to Slide, and the second (Wittenberg), was connected by a saddle to the second. 
+to Slide, and the second (Wittenberg), was connected by a saddle to the first. 
 
 ![Path up Cornell mountain, happily packed down by snowshoers](/assets/images/20130313_slide_09_sm.jpg)<br/>
 ![View of Slide mountain, from Cornell mountain](/assets/images/20130313_slide_10_sm.jpg)<br/>
