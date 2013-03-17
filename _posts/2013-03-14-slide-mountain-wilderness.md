@@ -26,7 +26,7 @@ In spite of this, my spirits were high. The forest, Sundown forest, was very bea
 
 Towards evening, the cold and my frustration grew. At times, it seemed I was moving only 10 feet per minute that passed.
 My frustration turned into fear, nearly panic. It became more difficult to follow the trail as the daylight, along with
-my strength and focus, faded.
+my strength and focus, faded. I don't know that I've ever wanted anything as badly as I wanted snowshoes, then.
 
 Eventually, I made it to Table Mountain Lean-to. I was out of water, and couldn't find the spring in the dark, so I stuffed
 my water bottles with snow and tucked them in my sleeping bag. These gave me enough water during the night to keep me
