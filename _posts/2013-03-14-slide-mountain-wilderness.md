@@ -42,7 +42,7 @@ on finding running water towards the bottom of Table mountain.
 My movements were still annoyingly halted by the snow. The best thing to do, I learned, was just to walk very slowly, waiting
 until my back foot had sunk as far as I thought it would before trying to shift weight to the front foot.
 
-Luckily, I passed a group of snowshoers going the opposite the direction. Through their combined treading, I gained the
+Luckily, I passed a group of snowshoers going the opposite direction. Through their combined treading, I gained the
 advantages of a trail now made visible and compact, saving me a lot of time and energy.
 
 ![Donovan Brook](/assets/images/20130313_slide_04_sm.jpg)
