@@ -3,7 +3,7 @@ layout: default
 title: Basic RESTful API versioning in Jersey
 ---
 
-# RESTful API versioning in Jersey
+# Basic RESTful API versioning in Jersey
 
 Have you ever wondered how you'd create a versioned API in [Jersey](http://jersey.java.net) using the `Accept` HTTP header? If so, read on.
 
