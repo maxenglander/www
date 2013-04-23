@@ -189,10 +189,6 @@ while `TrackV2` becomes:
             return length;
         }
 
-        public String getTitle() {
-            return title;
-        }
-
         @Override
         @JsonIgnore
         public int getYear() {
