@@ -68,7 +68,7 @@ Using `curl`, a client would request the version 1 representation of a track as 
 
     curl -H "Accept: application/vnd.musicstore-v1+json" http://localhost:8080/track/1
 
-and would receive the following json response:
+and would receive the following JSON response:
 
     {"artistName":"Woodie Guthrie","length":"2:30","title":"Jackhammer Blues","year":1941}
 
@@ -124,7 +124,7 @@ Using `curl`, a client would request the version 2 representation of a track as 
 
     curl -H "Accept: application/vnd.musicstore-v2+json" http://localhost:8080/track/1
 
-and would receive the following json response:
+and would receive the following JSON response:
 
     {"artistName":"Woodie Guthrie","length":150,"title":"Jackhammer Blues"}
 
