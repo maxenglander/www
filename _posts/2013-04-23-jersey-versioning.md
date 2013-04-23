@@ -244,6 +244,8 @@ classes, each responsible for handling a different version level.
     }
 {% endhighlight %}
 
+But I can't.
+
 ## Code
 
 [Jersey versioning example](https://github.com/maxenglander/jersey-versioning-example)
