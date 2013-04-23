@@ -75,7 +75,7 @@ and would receive the following json response:
 ## Version 2
 
 As our product evolves, we come up with a lot of ideas to improve the API. Any changes we want to make that would
-break the API for current clients, we put in version 2 of the API. Here are some (arbitrary) examples of non-compatible
+break the API for current clients, we put in version 2 of the API. Here are some (arbitrary) examples of non-backwards-compatible
 changes:
 
  * Rename `artistName` to `artist`
@@ -237,6 +237,7 @@ classes, each responsible for handling a different version level.
     public class TrackResourceV2 {
         @GET
         @Path("/{id}")
+        @Produces("application/vnd.musicstore-v2+json")
         public TrackV2 get(@PathParam("id") int id) {
             /* As above */
         }
