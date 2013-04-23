@@ -1,6 +1,6 @@
 ---
 layout: default
-title: RESTful API versioning in Jersey
+title: Basic RESTful API versioning in Jersey
 ---
 
 # RESTful API versioning in Jersey
@@ -212,7 +212,12 @@ The key features of this de-duplication are
 
 One thing that annoys me about [JAX-RS](https://jax-rs-spec.java.net/) (the spec for which Jersey is the reference implementation)
 is that you can't have two different resources for the same path. I wish I could organize my API versions into multiple resource
-classes, each responsible for handling a different version level.
+classes, each responsible for handling a different version level. 
+
+Granted, I could just use path-based versioning (e.g. `/v1/track` and `/v2/track`) to circumvent this restriction, but I'm sold on 
+some of the [arguments](http://stackoverflow.com/questions/389169/best-practices-for-api-versioning) for header-based versioning.
+
+Any how, I wish I could do this:
 
 ### Version 1
 
