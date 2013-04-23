@@ -197,9 +197,10 @@ while `TrackV2` becomes:
     }
 {% endhighlight %}
 
-The key features of this de-duplication are 
+The key features of this de-duplication are:
 
-  * `@JsonProperty`, a Jackson annotation which allows you to control the key to which a POJO field or method
+  * `@JsonProperty`, a Jackson annotation which allows you to control the name of the key to which a POJO field or method
+  is serialized
   * `@JsonIgnore`, a Jackson annotation which should be pretty self-explanatory
   * The change of `getLength`'s return type from a `String` to an `Object`
     * Jackson is smart enough to detect the type of the return value, and serializes accordingly
