@@ -70,7 +70,7 @@ Using `curl`, a client would request the version 1 representation of a track as 
 
 and would receive the following JSON response:
 
-    {"artistName":"Woodie Guthrie","length":"2:30","title":"Jackhammer Blues","year":1941}
+    {"artistName":"Woodie Guthrie","length":"2:30","title":"Jackhammer John","year":1941}
 
 ## Version 2
 
@@ -116,7 +116,7 @@ In `TrackResource`, we add a new method to return this representation of a track
     @Path("/{id}")
     @Produces("application/vnd.musicstore-v2+json")
     public TrackV2 getV2(@PathParam("id") int id) {
-        return new TrackV2("Woodie Guthrie", "Jackhammer Blues", 150)
+        return new TrackV2("Woodie Guthrie", "Jackhammer John", 150)
     }
 {% endhighlight %}
 
@@ -126,7 +126,7 @@ Using `curl`, a client would request the version 2 representation of a track as 
 
 and would receive the following JSON response:
 
-    {"artistName":"Woodie Guthrie","length":150,"title":"Jackhammer Blues"}
+    {"artistName":"Woodie Guthrie","length":150,"title":"Jackhammer John"}
 
 ## Code re-use
 
@@ -254,3 +254,7 @@ But I can't.
 ## Code
 
 [Jersey versioning example](https://github.com/maxenglander/jersey-versioning-example)
+
+## Music
+
+<iframe width="400" height="80" src="https://rd.io/i/QU9ScDcg6Rw/" frameborder="0"></iframe>
