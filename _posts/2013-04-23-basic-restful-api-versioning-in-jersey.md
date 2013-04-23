@@ -254,7 +254,3 @@ But I can't.
 ## Code
 
 [Jersey versioning example](https://github.com/maxenglander/jersey-versioning-example)
-
-## Music
-
-<iframe width="400" height="80" src="https://rd.io/i/QU9ScDcg6Rw/" frameborder="0"></iframe>
