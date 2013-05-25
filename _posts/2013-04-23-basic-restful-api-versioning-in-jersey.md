@@ -250,4 +250,4 @@ But I can't.
 
 ## Code
 
-[Jersey versioning example](https://github.com/maxenglander/jersey-versioning-example)
+[Jersey versioning example](https://github.com/maxenglander/jersey-versioning-example/tree/v1.0)
