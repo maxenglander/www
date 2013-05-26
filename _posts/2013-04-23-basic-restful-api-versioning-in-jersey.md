@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: Basic RESTful API versioning in Jersey
 ---
 

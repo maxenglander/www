@@ -1,6 +1,5 @@
 ---
 layout: default
-comments: false
 title: maxenglander.com
 ---
 

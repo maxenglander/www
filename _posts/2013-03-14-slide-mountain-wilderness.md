@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: Winter hiking in the Slide Mountain Wilderness
 ---
 

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: Validating Jersey 1.x requests
 ---
 

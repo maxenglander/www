@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: Constraining Strings in Jersey requests
 ---
 

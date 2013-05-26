@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: Make image uploads resilient to form redisplays
 ---
 

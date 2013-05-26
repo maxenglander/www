@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: Accessing either form or query parameters from a single annotated method parameter in Jersey
 ---
 
