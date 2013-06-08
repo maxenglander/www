@@ -6,7 +6,7 @@ layout: post
 # Separate resource classes for RESTful API versioning in Jersey
 
 In my [last post](/2013/04/23/basic-restful-api-versioning-in-jersey.html), I looked at ways
-to implemented versioned APIs in [JSR-311](http://jcp.org/en/jsr/detail?id=311), and lamented 
+to implement versioned APIs in [JSR-311](http://jcp.org/en/jsr/detail?id=311), and lamented 
 the fact that the spec does not allow you to have two root resource classes with the same 
 `@Path` but different producible media-types. In other words, 
 
