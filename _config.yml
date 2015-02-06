@@ -1,4 +1,2 @@
-auto: true
+highlighter: pygments
 markdown: rdiscount
-pygments: true
-server: true
