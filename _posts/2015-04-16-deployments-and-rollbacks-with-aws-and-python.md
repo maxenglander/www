@@ -43,7 +43,7 @@ One of the special characteristics of cloud deployments, as opposed to
 a local build procedure, is that in a local build procedure you generally
 control the naming of artifacts (such as files and folders). In a PaaS such
 as AWS, you often do not. For example, AWS reserves the responsibility of 
-assigning it a unique IDs to EC2 instances.
+assigning unique IDs to EC2 instances.
 
 This difference entails consequences for how cleanups and rollbacks are 
 handled during a failed build process.
@@ -52,12 +52,12 @@ If, during a local build procedure, a stage fails (maybe `libcurl` could not
 be found), the process for cleaning up is usually simple and invariable:
 `rm -r build/.*` or something similar. It is not usually necessary to track
 the names of files and folders produced during the build, because, as a rule,
-they are pre-determined by the build process. Traditional build tools are
-well-geared to handle these sorts of rules.
+they are pre-determined by the build process. Traditional build tools excel 
+when constrained by these kinds of rules.
 
 Contrast this situation to an aborted cloud deploy. If, after launching 
 a dozen new AWS instances, a subsequent stage fails, we are now in a position
-where we have to rollback (e.g. shutdown) those dozen instances. Since
+where we have to rollback (i.e. terminate) those dozen instances. Since
 we did not generate the unique identifiers for those instances, they must be
 tracked somewhere.
 
@@ -79,21 +79,21 @@ A couple of concerns:
 1. AWS does not offer a way to enforce uniqueness of a key across resources
 1. Launching-and-tagging is a two-step over-the-network process
 
-In other words, I am concerned about maintaining the correct tags and values
-on instances.
+In other words, I am concerned about the ease and reliability of
+maintaining the correct tags and values on instances, and ensuring that the
+special tag is a "reserved" keyword across the organization.
 
 ### Local filesystem tracking
 
 Would look something like this
 
 1. Launch a bunch of stand by instances -> write their IDs to `./build/ids` 
-1. Run smoketests, the fail -> abort and rollback
-1. Shutdown all instances in `./build/ids`
+1. Run smoketests, uh-oh they failed -> shutdown all instances in `./build/ids`
 
 ### Track in central storage
 
 Like filesystem tracking, except instead of storing deploy history locally,
-write to a remote storage system such as S3.
+write to a remote storage system.
 
 ## Dirty Filesystems vs. Dirty Clouds
 
@@ -103,12 +103,12 @@ depending on the design of the deploy process, create new ones endlessly.
 
 Compiling a package locally produces artifacts in, typically, the package
 folder, `/tmp`, and whatever paths installation artifacts occupy. Re-running
-a `./configure; make intall` produces new artifacts, in a sense, but over-
-writes the previous ones, thus capping the total artifact count.
+a `./configure; make intall` produces new artifacts, in a sense, but 
+over-writes the previous ones, thus capping the total artifact count.
 
 Because of the way AWS EC2 instances are created, on the other hand, a deploy
 process could easily proliferate instances unless care is taken to ensure
-that resources created during previous, aborted deploys are shutdown.
+that resources created during previous, aborted deploys are cleaned up.
 
 (Why produce new artifacts instead of just deploying to the same set of
 instances over and over?
@@ -118,11 +118,13 @@ at that question.)
 On a related note, we *care* more about resources that are produced during
 an aborted deploy than we do about a dirty filesystem produced by a failed
 local build, because EC2 instances, generally speaking, cost more money! 
+Because of this, the time window for performing cleanup in the cloud may
+be shorter than a local build process.
 
 ### Avoiding resource proliferation
 
 A simple way to avoid resource proliferation is to forbid a deploy process
-to proceed when there is a previous, aborted deploy that was not fully
+from proceeding when there is a previous, aborted deploy that was not fully
 cleaned up. This is very different from the way local build processes work,
 where `./configure; make install` can be run with impunity at no cost.
 
@@ -147,8 +149,8 @@ looks something like this:
 
 {% highlight python %}
 @task
-def deploy_standby(instance_id):
-    image_id = create_image(instance_id)
+def deploy(live_instance_id):
+    image_id = create_image(live_instance_id)
     try:
         new_instance = run_instance(image_id)
         ip_address = new_instance.ip_address
@@ -158,6 +160,7 @@ def deploy_standby(instance_id):
             tests_pass = smoketest(ip_address)
             if not tests_pass:
                 raise AbortDeploy()
+            update_dns(ip_address)
         except AbortDeploy as e:
             terminate_instance(new_instance.id)
             raise e
