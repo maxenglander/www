@@ -227,3 +227,108 @@ provisioner would not be available via `.rendered` until the next Terraform run.
 
 By using `${file(...)}`, we are able to pass provisioned template files to other
 resources.
+
+## Scaling
+
+Scaling the cluster up and down is a little bit trickier. If we were managing a fleet
+of disconnected workers, we could simply increase or decrease `ETCD_COUNT`. However,
+since Etcd peers talk to each other, it is necessary for newly arrived members to
+be discovered and accepted into the existing cluster.
+
+If we increase `ETCD_COUNT` from three to five, we get the following error on the
+newly add members:
+
+    etcd-4 $ sudo journalctl -u etcd2
+    etcd: discovery cluster full, falling back to proxy
+
+In order to add a (non-proxy) peer to an existing cluster with Terraform, we could run
+a script to add the new member via the HTTP-based 
+[members API](https://github.com/coreos/etcd/blob/master/Documentation/other_apis.md#add-a-member),
+or with [`etcdctl`](https://github.com/coreos/etcd/blob/master/Documentation/runtime-configuration.md).
+
+Either approach requires using the following logic for any given `terraform apply`:
+
+ 1. Determine if there is an existing cluster
+ 1. If not, get a discovery URL from https://discovery.etcd.io,
+    and launch new instances with that discovery URL
+ 1. If so, launch new instances without a discovery URL, and add
+    them to the existing cluster
+
+While this approach is the most correct, it is difficult to accomplish in Terraform
+because Terraform does not currently provide much (or anything at all) in the way of
+branching logic.
+
+### Immutable Clusters
+
+Another approach is to simply create a brand new cluster anytime the cluster size is
+increased or decreased. I call this the "immutable clusters" approach, because the size
+of any given cluster is immutable. In order to change the size of a cluster, an entire
+new cluster must be brought up, and the old one destroyed.
+
+Obviously, this approach is only useful if we do not need to preserve data stored on
+the discarded cluster, or have a great way to transfer data from it to the new cluster.
+In any case, here is how to create a brand new Etcd cluster any time there is a change
+in the number of peers.
+
+#### Generate a New Discovery URL
+
+We will need to generate a new discovery URL every time we change `ETCD_COUNT`. The simple
+way to do this is to add a var to the `etcd_discovery_url` `template_file` resource:
+
+{% highlight json %}
+{
+    "etcd_discovery_url": {
+        "filename": "/dev/null",
+        "provisioner": { 
+            "local-exec": {
+                "command": "curl https://discovery.etcd.io/new?size=${var.ETCD_COUNT} > ${var.ETCD_DISCOVERY_URL}"
+            }
+        },
+        "vars": {
+            "size": "${var.ETCD_COUNT}"
+        }
+    }
+}
+{% endhighlight %}
+
+This will force the resource to be recreated (and there re-run the provisioner) any time the
+size of the cluster changes. (I do not know why Terraform does not detect changes inside the
+`command` of the `local-exec` provisioner.)
+
+#### Force Re-creation of Existing Peers
+
+Forcing the re-creation of the `etcd_discovery_url` will trigger an update to the metadata
+of existing Etcd peers, but the peers themselves will not be re-created nor rebooted, and so
+they will not use the new discovery URL. To force the re-creation of a peer, we can change
+its name:
+
+{% highlight json %}
+{
+    "google_compute_instance": {
+        "etcd": {
+            "count": "${var.ETCD_COUNT}",
+            "disk": {
+                "image": "coreos-beta-681-0-0-v20150527"
+            },
+            "machine_type": "n1-standard-1",
+            "metadata": {
+                "user-data": "${template_file.etcd_cloud_config.rendered}"
+            },
+            "name": "etcd-${index.count+1}-${var.ETCD_COUNT}",
+            "network_interface": {
+                "access_config": {},
+                "network": "default"
+            },
+            "zone": "us-central1-a"
+        }
+    }
+}
+{% endhighlight %}
+
+By giving each Etcd peer a name of the form `etcd-n-N`, we ensure that any change in cluster
+size changes any existing instance name, forcing its re-creation and usage of the new
+discovery URL.
+
+## Example Code
+
+https://github.com/maxenglander/etcd-terraform-example
