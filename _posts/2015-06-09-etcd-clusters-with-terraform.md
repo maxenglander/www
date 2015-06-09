@@ -331,4 +331,4 @@ discovery URL.
 
 ## Example Code
 
-https://github.com/maxenglander/etcd-terraform-example
+[https://github.com/maxenglander/etcd-terraform-example](https://github.com/maxenglander/etcd-terraform-example)
