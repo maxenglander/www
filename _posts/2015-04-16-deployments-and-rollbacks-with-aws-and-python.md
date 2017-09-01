@@ -147,7 +147,7 @@ attempt. However, if the cost of leaving the cloud dirty for a long time
 is a concern, cleaning up during the deploy itself is an option, and
 looks something like this:
 
-{% highlight python %}
+```python
 @task
 def deploy(live_instance_id):
     image_id = create_image(live_instance_id)
@@ -167,7 +167,7 @@ def deploy(live_instance_id):
     except AbortDeploy as e:
         deregister_image(image_id)
         raise e
-{% endhighlight %}
+```
 
 ## Conclusion
 
@@ -179,6 +179,3 @@ they are defined by the PaaS and are needed during cleanup/rollback
 1. Deploy processes do not run if there is a previous, uncleaned
 failed deploy
 1. Failed deploys clean up after themselves
-
-In subsequence posts, I will look at implementing some of these
-rules with the [tools](#tools) I listed at the top.

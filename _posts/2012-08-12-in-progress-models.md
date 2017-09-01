@@ -16,28 +16,28 @@ I didn't feel like this was a good solution to me for a couple of reasons:
 
 I decided to set up conditional validations on `Art`. First, I add an `is_complete_flag` to my `Art` model:
 
-{% highlight ruby %}
-    class AddIsCompleteFlagToArts < ActiveRecord::Migration
-        def up
-            add_column :arts, :is_complete_flag, :boolean, default: true, null: false
-        end
+```ruby
+class AddIsCompleteFlagToArts < ActiveRecord::Migration
+    def up
+        add_column :arts, :is_complete_flag, :boolean, default: true, null: false
     end
-{% endhighlight %}
+end
+```
 
 In my model, this:
 
-{% highlight ruby %}
-    class Art < ActiveRecord::Base
-        has_attached_file :image
+```ruby
+class Art < ActiveRecord::Base
+    has_attached_file :image
 
-        validates_presence_of :title
-        validates_attachment_presence :image
-    end
-{% endhighlight %}
+    validates_presence_of :title
+    validates_attachment_presence :image
+end
+```
 
 Becomes this:
 
-{% highlight ruby %}
+```ruby
     class Art < ActiveRecord::Base
         has_attached_file :image
 
@@ -59,40 +59,40 @@ Becomes this:
 
         attr_accessor :in_progress
     end
-{% endhighlight %}
+```
 
 From `ArtsController`, I do this:
 
-{% highlight ruby %}
-    class ArtsController < ApplicationController
-        def create
-            @art = Art.new params[:art]
-            @art.progressive(&:save)
+```ruby
+class ArtsController < ApplicationController
+    def create
+        @art = Art.new params[:art]
+        @art.progressive(&:save)
 
-            if @art.complete?
-                redirect_to @art
-            else
-                render :edit
-            end
-        end
-
-        def edit
-            @art = Art.find params[:id]  
-        end
-
-        def update
-            @art = Art.find params[:id]
-
-            @art.progressive(&:save)
-
-            if @art.complete
-                redirect_to @art
-            else
-                render :edit
-            end
+        if @art.complete?
+            redirect_to @art
+        else
+            render :edit
         end
     end
-{% endhighlight %}
+
+    def edit
+        @art = Art.find params[:id]  
+    end
+
+    def update
+        @art = Art.find params[:id]
+
+        @art.progressive(&:save)
+
+        if @art.complete
+            redirect_to @art
+        else
+            render :edit
+        end
+    end
+end
+```
 
 Some other things I might do to build on this:
 - Add a `completed` scope to my `Art` model to only return completed art from queries

@@ -9,8 +9,8 @@ It's going to be amazing.
 
 ## Just look at me
 
-{% highlight ruby linenos %}
+```ruby
     def foo
       puts 'foo'
     end
-{% endhighlight %}
+```

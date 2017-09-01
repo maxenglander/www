@@ -15,54 +15,54 @@ Pretend we're an online music store, and are building an API.
 
 In the first incarnation of the app, we create a `TrackResource` to serve our collection of tracks.
 
-{% highlight java %}
-    // Because we're seasoned API developers, we version
-    // our resource representions from the very start
-    public class TrackV1 {
-        private final String artistName;
-        private final String title;
-        private final String length;
-        private final int year;
+```java
+// Because we're seasoned API developers, we version
+// our resource representions from the very start
+public class TrackV1 {
+    private final String artistName;
+    private final String title;
+    private final String length;
+    private final int year;
 
-        public Track(String artistName, String title, String length, int year) {
-            this.artistName = artistName;
-            this.title = title;
-            this.length = length;
-            this.year = year;
-        }
-
-        public String getArtistName() {
-            return artistName;
-        }
-
-        public String getLength() {
-            return length;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public int getYear() {
-            return year;
-        }
+    public Track(String artistName, String title, String length, int year) {
+        this.artistName = artistName;
+        this.title = title;
+        this.length = length;
+        this.year = year;
     }
-{% endhighlight %}
+
+    public String getArtistName() {
+        return artistName;
+    }
+
+    public String getLength() {
+        return length;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getYear() {
+        return year;
+    }
+}
+```
 
 Using the `@Produces` annotation, we can determine which representation gets returned when a client requests a particular version of our API.
 
-{% highlight java %}
-    @Resource
-    @Path("/track")
-    @Produces("application/vnd.musicstore-v1+json")
-    public class TrackResource {
-        @GET
-        @Path("/{id}")
-        public TrackV1 getV1(@PathParam("id") int id) {
-            return new TrackV1("Woody Guthrie", "Jackhammer John", "2:30", 1941);
-        }
+```java
+@Resource
+@Path("/track")
+@Produces("application/vnd.musicstore-v1+json")
+public class TrackResource {
+    @GET
+    @Path("/{id}")
+    public TrackV1 getV1(@PathParam("id") int id) {
+        return new TrackV1("Woody Guthrie", "Jackhammer John", "2:30", 1941);
     }
-{% endhighlight %}
+}
+```
 
 Using `curl`, a client would request the version 1 representation of a track as follows:
 
@@ -82,43 +82,47 @@ changes:
  * Deprecate `year`
  * Change the type of `length` from a `String` to an `int`
 
-{% highlight java %}
-    public class TrackV2 {
-        private final String artist;
-        private final String title;
-        private final int length;
+```java
+public class TrackV2 {
+    private final String artist;
+    private final String title;
+    private final int length;
 
-        public TrackV2(String artist, String title, int length) {
-            this.artist = artist;
-            this.title = title;
-            this.length = length;
-        }
-
-        public String getArtist() {
-            return artist;
-        }
-
-        // Length of the track in seconds
-        public int getLength() {
-            return length;
-        }
-
-        public String getTitle() {
-            return title;
-        }
+    public TrackV2(String artist, String title, int length) {
+        this.artist = artist;
+        this.title = title;
+        this.length = length;
     }
-{% endhighlight %}
+
+    public String getArtist() {
+        return artist;
+    }
+
+    // Length of the track in seconds
+    public int getLength() {
+        return length;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+}
+```
 
 In `TrackResource`, we add a new method to return this representation of a track when requested.
 
-{% highlight java %}
+```java
+    ...
+
     @GET
     @Path("/{id}")
     @Produces("application/vnd.musicstore-v2+json")
     public TrackV2 getV2(@PathParam("id") int id) {
         return new TrackV2("Woodie Guthrie", "Jackhammer John", 150)
     }
-{% endhighlight %}
+
+    ...
+```
 
 Using `curl`, a client would request the version 2 representation of a track as follows:
 
@@ -135,67 +139,67 @@ we could use a combo of subclassing and [Jackson](http://wiki.fasterxml.com/Jack
 
 `TrackV1` becomes:
 
-{% highlight java %}
-    public class TrackV1 {
-        private final String artistName;
-        private final String title;
-        private final String length;
-        private final int year;
+```java
+public class TrackV1 {
+    private final String artistName;
+    private final String title;
+    private final String length;
+    private final int year;
 
-        public Track(String artistName, String title, String length, int year) {
-            this.artistName = artistName;
-            this.title = title;
-            this.length = length;
-            this.year = year;
-        }
-
-        public String getArtistName() {
-            return artistName;
-        }
-
-        public Object getLength() {
-            return length;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public int getYear() {
-            return year;
-        }
+    public Track(String artistName, String title, String length, int year) {
+        this.artistName = artistName;
+        this.title = title;
+        this.length = length;
+        this.year = year;
     }
-{% endhighlight %}
+
+    public String getArtistName() {
+        return artistName;
+    }
+
+    public Object getLength() {
+        return length;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getYear() {
+        return year;
+    }
+}
+```
 
 while `TrackV2` becomes:
 
-{% highlight java %}
-    public class TrackV2 extends TrackV1 {
-        private final int length;
+```java
+public class TrackV2 extends TrackV1 {
+    private final int length;
 
-        public TrackV2(String artistName, String title, int length, int year) {
-            super(artistName, title, (length / 60) + ":" + (length % 60), year);
-            this.length = length;
-        }
-
-        @Override
-        @JsonProperty("artist")
-        public String getArtistName() {
-            return super.getArtistName();
-        }
-
-        @Override
-        public Object getLength() {
-            return length;
-        }
-
-        @Override
-        @JsonIgnore
-        public int getYear() {
-            return super.getYear();
-        }
+    public TrackV2(String artistName, String title, int length, int year) {
+        super(artistName, title, (length / 60) + ":" + (length % 60), year);
+        this.length = length;
     }
-{% endhighlight %}
+
+    @Override
+    @JsonProperty("artist")
+    public String getArtistName() {
+        return super.getArtistName();
+    }
+
+    @Override
+    public Object getLength() {
+        return length;
+    }
+
+    @Override
+    @JsonIgnore
+    public int getYear() {
+        return super.getYear();
+    }
+}
+```
 
 The key features of this de-duplication are:
 
@@ -218,33 +222,33 @@ Any how, I wish I could do this:
 
 ### Version 1
 
-{% highlight java %}
-    @Resource
-    @Path("/track")
-    public class TrackResourceV1 {
-        @GET
-        @Path("/{id}")
-        @Produces("application/vnd.musicstore-v1+json")
-        public TrackV1 get(@PathParam("id") int id) {
-            /* As above */
-        }
+```java
+@Resource
+@Path("/track")
+public class TrackResourceV1 {
+    @GET
+    @Path("/{id}")
+    @Produces("application/vnd.musicstore-v1+json")
+    public TrackV1 get(@PathParam("id") int id) {
+        /* As above */
     }
-{% endhighlight %}
+}
+```
 
 ### Version 2
 
-{% highlight java %}
-    @Resource
-    @Path("/track")
-    public class TrackResourceV2 {
-        @GET
-        @Path("/{id}")
-        @Produces("application/vnd.musicstore-v2+json")
-        public TrackV2 get(@PathParam("id") int id) {
-            /* As above */
-        }
+```java
+@Resource
+@Path("/track")
+public class TrackResourceV2 {
+    @GET
+    @Path("/{id}")
+    @Produces("application/vnd.musicstore-v2+json")
+    public TrackV2 get(@PathParam("id") int id) {
+        /* As above */
     }
-{% endhighlight %}
+}
+```
 
 But I can't.
 

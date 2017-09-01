@@ -22,9 +22,9 @@ or even the document element itself, and create a shadow root.
 
 ### Creating a shadow root
 
-{% highlight javascript %}
+```javascript
 var shadowRoot = document.documentElement.createShadowRoot();
-{% endhighlight %}
+```
 
 Executing the expression above will cause the (compliant) browser to immediately
 render the contents of the newly created shadow root. Since this newly
@@ -35,9 +35,9 @@ created shadow root is empty, that is exactly what the browser renders.
 You can select content to project from the host element on to the shadow root
 with the `content` tag and `select` attribute.
 
-{% highlight html %}
+```html
 <content select='*'></content>
-{% endhighlight %}
+```
 
 Injecting the fragment above in to the shadow root will cause the browser to
 project the entire contents of the host (the `documentElement`) on to the
@@ -51,18 +51,18 @@ No need to rely on our imaginations, however.
 
 Let us say we are browsing on a website with the following HTML:
 
-{% highlight html %}
+```html
 <!DOCTYPE html>
 <html>
 <body>
     <p>Hello, world!</p>
 </body>
 </html>
-{% endhighlight %}
+```
 
 Our Google Chrome extension has the following content script:
 
-{% highlight javascript %}
+```javascript
 var container, module, shadowRoot, viewURL;
 
 container = document.createElement('span');
@@ -87,11 +87,11 @@ module.controller('MyCtrl', ['$scope', function ($scope) {
 }]);
 
 angular.bootstrap(container, [module]);
-{% endhighlight %}
+```
 
 The Google Chrome extension has the following view for the shadow root:
 
-{% highlight html %}
+```html
 <span ng-controller="MyCtrl">
     <span ng-switch="switch">
         <span ng-switch-when="on">
@@ -102,7 +102,7 @@ The Google Chrome extension has the following view for the shadow root:
         </span>
     </span>
 </span>
-{% endhighlight %}
+```
 
 ## Source
 

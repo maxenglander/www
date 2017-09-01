@@ -42,7 +42,7 @@ To start off simple, here is a Terraform configuration for starting a three-node
 cluster running on CoreOS, Google Compute instances. The example Terraform configurations
 in this post are JSON-formatted, but you could just as easily use Terraform format.
 
-{% highlight json %}
+```json
 {
     "provider": {
         "google": {
@@ -86,7 +86,7 @@ in this post are JSON-formatted, but you could just as easily use Terraform form
         "GOOGLE_PROJECT": {}
     }
 }
-{% endhighlight %}
+```
 
 When Terraform processes this configuration, it reads in `etcd_cloud_config.yaml.tpl`,
 and passes it in as metadata to new Google Compute instances. CoreOS is smart enough
@@ -95,7 +95,7 @@ key.
 
 For our purposes, the following configuration is sufficient for `etcd_cloud_config.yaml.tpl`.
 
-{% highlight yaml %}
+```yaml
 #cloud-config
 
 coreos:
@@ -108,17 +108,17 @@ coreos:
   units:
     - name: etcd2.service
       command: start
-{% endhighlight %}
+```
 
 The last thing we need before spinning up this starter cluster is a `terraform.tfvars.json`
 file with our private variables.
 
-{% highlight json %}
+```json
 {
     "GOOGLE_ACCOUNT_FILE": </path/to/your/account/file.json>,
     "GOOGLE_PROJECT": <your_google_project_id>
 }
-{% endhighlight %}
+```
 
 Now we can start the cluster with:
 
@@ -144,7 +144,7 @@ Terraform does not currently have great options for storing a value computed via
 runtime, but we can do so with the combination of a `template_file` provider and a `local-exec`
 provisioner:
 
-{% highlight json %}
+```json
 {
     "provider": {
         "template_file": {
@@ -174,14 +174,14 @@ provisioner:
         }
     }
 }
-{% endhighlight %}
+```
 
 With these additions, Terraform will save a new discovery URL to `etcd_discovery_url.txt`,
 and interpolate the contents of the file into `etcd_cloud_config.yaml.tpl`. In order for
 the URL to appear in the rendered version, we need to add a `${etcd_discovery_url}`
 variable to our `etcd_cloud_config.yaml.tpl`:
 
-{% highlight yaml %}
+```yaml
 #cloud-config
 
 coreos:
@@ -196,7 +196,7 @@ coreos:
   units:
     - name: etcd2.service
       command: start
-{% endhighlight %}
+```
 
 To see this in action, first destroy the cluster:
 
@@ -275,7 +275,7 @@ in the number of peers.
 We will need to generate a new discovery URL every time we change `ETCD_COUNT`. The simple
 way to do this is to add a var to the `etcd_discovery_url` `template_file` resource:
 
-{% highlight json %}
+```json
 {
     "etcd_discovery_url": {
         "filename": "/dev/null",
@@ -289,7 +289,7 @@ way to do this is to add a var to the `etcd_discovery_url` `template_file` resou
         }
     }
 }
-{% endhighlight %}
+```
 
 This will force the resource to be recreated (and there re-run the provisioner) any time the
 size of the cluster changes. (I do not know why Terraform does not detect changes inside the
@@ -302,7 +302,7 @@ of existing Etcd peers, but the peers themselves will not be re-created nor rebo
 they will not use the new discovery URL. To force the re-creation of a peer, we can change
 its name:
 
-{% highlight json %}
+```json
 {
     "google_compute_instance": {
         "etcd": {
@@ -323,7 +323,7 @@ its name:
         }
     }
 }
-{% endhighlight %}
+```
 
 By giving each Etcd peer a name of the form `etcd-n-N`, we ensure that any change in cluster
 size changes any existing instance name, forcing its re-creation and usage of the new
