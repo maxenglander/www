@@ -92,6 +92,9 @@ import java.util.UUID;
 import static org.hibernate.internal.util.BytesHelper.asLong;
 import static org.hibernate.internal.util.BytesHelper.fromLong;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
+
 /*
  * Auto apply this converter to all UUID-based attributes, excluding the list 
  * of exceptions mentioned in the JPA spec.
