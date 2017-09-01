@@ -14,7 +14,7 @@ post, I want to share how to use Hibernate to implement a common solution for
 this problem. Note that this post applies to MySQL 5.x using the InnoDB engine,
 version-1 UUIDs, JPA 2.1 and Hibernate 5.x.
 
-## UUIDs: problems and solutions
+## UUIDs: problems and solution
 
 The details regarding the internal structure of version-1 UUIDs, the performance
 problems that ensue for MySQL InnoDB indexes, and the solutions that other
@@ -26,7 +26,8 @@ are inserted somewhat randomly into an index, resulting in increased page splits
 larger index size, slower insert speeds, and, depending on the query, slower
 lookup speed.
 
-The solution, simply put, is to un-swap the hi- and low- digits upon insert
+The solution, simply put, is to un-swap the hi- and low- digits upon insert,
+and swap them again during read.
 
 ## Integrating with JPA/Hibernate
 
@@ -78,7 +79,8 @@ primary key columns according to the [JPA docs][6]:
 > attributes explicitly denoted as Enumerated or Temporal. Applications that
 > specify such conversions will not be portable.
 
-Oh well, here's the code, anyway:
+This isn't really acceptable for my use case; it may be for yours.
+Here's the code, anyway:
 
 ```java
 /*
@@ -128,7 +130,7 @@ without the limitations around `@Id` attributes. There are different ways to
 create a custom Hibernate type. The approach is [very][7] [similar][8] to the code
 Hibernate uses to transform UUIDs to binary (and vice-versa).
 
-**First, define the custom type.**
+**1. First, define the custom type.**
 ```java
 // File: com/maxenglander/example/optimizeduuid/OptimizedUUIDType.java
 package com.maxenglander.example.optimizeduuid;
@@ -157,7 +159,7 @@ public class OptimizedUUIDType extends AbstractSingleColumnStandardBasicType<UUI
 }
 ```
 
-**Next, re-order the digits of the UUID upon read/write.**
+**2. Next, re-order the digits of the UUID upon read/write.**
 ```java
 // File:  com/maxenglander/example/optimizeduuid/OptimizedUUIDTypeDescriptor.java
 package com.maxenglander.example.optimizeduuid;
@@ -260,7 +262,7 @@ public class OptimizedUUIDTypeDescriptor extends AbstractTypeDescriptor<UUID> {
 }
 ```
 
-**Finally, ensure the custom type is used for all UUID attributes.**
+**3. Finally, ensure the custom type is used for all UUID attributes.**
 ```java
 // File: com/maxenglander/example/optimizeduuid/package-info.java
 @TypeDef(defaultForType=UUID.class, typeClass=UUIDOptimizedType.class)
@@ -270,7 +272,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.TypeDef;
 ```
-    
+
 <a id="references"></a>
 ## References and links
 
