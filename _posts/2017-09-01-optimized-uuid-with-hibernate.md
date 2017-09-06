@@ -12,7 +12,8 @@ globally-unique IDs within MySQL. However, insertion of version-1 UUIDs into an
 index can create performance problems due to their internal structure. In this
 post, I want to share how to use Hibernate to implement a common solution for
 this problem. Note that this post applies to MySQL 5.x using the InnoDB engine,
-version-1 UUIDs, JPA 2.1 and Hibernate 5.x.
+version-1 UUIDs, JPA 2.1, Hibernate 5.x, and Java 1.8+, although it may be
+applicable to other RDBMS and versions of the above technologies.
 
 ## UUIDs: problems and solution
 
