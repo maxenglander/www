@@ -139,7 +139,7 @@ public class OptimizedUUIDConverter implements AttributeConverter<UUID, byte[]> 
 
 Using a Hibernate custom type is conceptually similar to using a `@Converter`,
 without the limitations around `@Id` attributes. There are different ways to
-create a custom Hibernate type. The approach is [very][7] [similar][8] to the code
+create a custom Hibernate type. The approach below is [very][7] [similar][8] to the code
 Hibernate uses to transform UUIDs to binary (and vice-versa).
 
 **1. First, define the custom type.**
