@@ -291,11 +291,11 @@ import org.hibernate.annotations.TypeDef;
 
  1. [Hibernate source code: org.hibernate.type.UUIDBinaryType][7]
  1. [Hibernate source code: org.hibernate.type.descriptor.java.UUIDTypeDescriptor][8]
+ 1. [Oracle JavaDocs: javax.persistence.Converter][6]
  1. [Percona: to UUID or not to UUID][2]
  1. [Percona: Store UUID optimized way][4]
  1. [Percona: Illustrating primary key models in innodb and their impact on disk usage][5]
  1. [Rick James on MySQL: UUID][3]
- 1. [Oracle JavaDocs: javax.persistence.Converter][6]
  1. [Wikipedia: Version 1 UUIDs][1]
 
  [1]: https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_.28date-time_and_MAC_address.29
