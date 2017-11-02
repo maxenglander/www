@@ -1,9 +1,9 @@
 ---
-title: Using H2 instead of MySQL for functional tests
+title: Using H2 in functional tests
 layout: post
 ---
 
-# Using H2 instead of MySQL for functional tests
+# Using H2 in functional tests
 
 A Java application I develop has a data access layer that interacts
 with MySQL, via Hibernate. Most of the code in this application I am
