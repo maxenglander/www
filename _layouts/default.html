@@ -3,24 +3,29 @@
   <head>
     <title>{{ page.title }}</title>
     <link rel="stylesheet" href="/assets/stylesheets/github.css" />
+    <link rel="stylesheet" href="/assets/stylesheets/site.css" />
     <link rel="stylesheet" href="/assets/stylesheets/syntax.css" />
   </head>
   <body>
-    {% include header.html %}
-    {{ content }}
-    {% if page.comments %}
-    <div id="disqus_thread"></div>
-    <script type="text/javascript">
-        var disqus_shortname = 'maxenglander';
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    {% endif %}
-    {% include footer.html %}
+    <div id="page">
+      {% include header.html %}
+      <div id="content">
+          {{ content }}
+      </div>
+      {% if page.comments %}
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+          var disqus_shortname = 'maxenglander';
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      {% endif %}
+      {% include footer.html %}
+     </div>
   </body>
 </html>
