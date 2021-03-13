@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>{{ page.title }}</title>
+    <meta http-equiv="refresh" content="1;url={{ page.external_url }}">
     <link rel="stylesheet" href="/assets/stylesheets/github.css" />
     <link rel="stylesheet" href="/assets/stylesheets/site.css" />
     <link rel="stylesheet" href="/assets/stylesheets/syntax.css" />
@@ -9,10 +10,7 @@
   <body>
     <div id="page">
       {% include header.html %}
-      <div id="content">
-          {{ content }}
-      </div>
-      {% include footer.html %}
+      <p>Redirecting you to: [{{ page.external_url }}]({{ page.external_url }})</p>
      </div>
   </body>
 </html>
